@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Y</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: inherit;
+        }
+
+        body {
+            font-family: 'Inter Tight', sans-serif;
+            background: linear-gradient(to bottom right, #FFFFFF, #F8F3FF);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .logo-container {
+            position: fixed;
+            top: 60px;
+            left: 80px;
+            width: 56px;
+            height: 56px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .logo-container img {
+            width: 56px;
+            height: 56px;
+        }
+
+        .header-container {
+            margin-bottom: 40px;
+            margin-top: 140px;
+        }
+
+        .header-svg {
+            width: 246px;
+            height: 62px;
+        }
+
+        .intro {
+            font-size: 33.01px;
+            line-height: 1.4;
+            margin-bottom: 60px;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.92);
+        }
+
+        .tagline {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: "Inter Tight", "Inter Tight Placeholder", sans-serif;
+            font-size: 70px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 140%;
+            background-image: linear-gradient(90deg, rgb(151, 151, 151) 0%, rgb(56, 56, 56) 50%, rgb(94, 94, 94) 100%);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .tagline::before,
+        .tagline:hover::before {
+            display: none;
+        }
+
+        .tagline:hover {
+            transform: scale(1.02);
+            filter: brightness(1.3);
+            background-image: linear-gradient(90deg, 
+                #D5AFFF 0%, 
+                rgb(56, 56, 56) 25%, 
+                #D5AFFF 50%,
+                rgb(56, 56, 56) 75%,
+                #D5AFFF 100%
+            );
+            animation: gradientShift 6s ease infinite;
+            text-shadow: 0 0 15px rgba(213, 175, 255, 0.3);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% center;
+            }
+            50% {
+                background-position: 100% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .description {
+            font-size: 25px;
+            line-height: 1.5;
+            color: rgba(0, 0, 0, 0.92);
+            margin-bottom: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 40px 20px;
+            }
+
+            .logo-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin: 0 auto 40px;
+            }
+
+            .header-svg {
+                width: 184.5px;
+                height: 46.5px;
+            }
+
+            .intro {
+                font-size: 24px;
+                margin-bottom: 40px;
+            }
+
+            .tagline {
+                font-size: 40px;
+                margin-bottom: 40px;
+            }
+
+            .description {
+                font-size: 18px;
+                margin-bottom: 40px;
+            }
+        }
+
+        .form-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .form-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .form-overlay.active .form-container {
+            transform: none;
+        }
+
+        .form-container {
+            /* Border properties */
+            --border-bottom-width: 1px;
+            --border-color: #ffffff;
+            --border-left-width: 1px;
+            --border-right-width: 1px;
+            --border-style: solid;
+            --border-top-width: 1px;
+            
+            /* Core styles */
+            width: min(814px, 95%);
+            height: auto;
+            min-height: min-content;
+            max-height: 90vh;
+            position: relative;
+            margin: 20px;
+            
+            /* Visual styles */
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.45);
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            overflow: auto;
+        }
+
+        /* Add the border using pseudo-element */
+        .form-container:after {
+            content: "";
+            border-width: var(--border-top-width) var(--border-right-width) var(--border-bottom-width) var(--border-left-width);
+            border-color: var(--border-color);
+            border-style: var(--border-style);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            box-sizing: border-box;
+            left: 0;
+            top: 0;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        form {
+            align-content: flex-start;
+            align-items: flex-start;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: min-content;
+            justify-content: flex-start;
+            padding: min(40px, 5vw);
+            width: 100%;
+        }
+
+        .form-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .form-group label {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .form-group input:not([type="checkbox"]),
+        .form-group select {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            font-size: 14px;
+            height: 40px;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .form-group.checkbox {
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .form-group.checkbox input {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .form-group.checkbox input:checked {
+            background: #000;
+            border-color: #000;
+        }
+
+        .form-group.checkbox input:checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+        }
+
+        .form-group.checkbox label {
+            font-size: 14px;
+            margin: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .form-group.checkbox:hover input {
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group.checkbox input:focus {
+            outline: none;
+            border-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-button {
+            width: 100%;
+            height: 45px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .submit-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .submit-button:not(:disabled):hover {
+            transform: translateY(-1px);
+        }
+
+        .submit-button:not(:disabled):active {
+            transform: translateY(1px);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            padding-right: 40px !important;
+        }
+
+        form h2 {
+            font-family: "Inter Tight", sans-serif;
+            font-size: 36px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.92);
+            margin-bottom: 24px;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: none;
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .close-button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group input:not([type="checkbox"]):hover,
+        .form-group select:hover {
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group input:not([type="checkbox"]):focus,
+        .form-group select:focus {
+            border-color: rgba(0, 0, 0, 0.3);
+            outline: none;
+        }
+
+        @supports (aspect-ratio: 1) {
+            body {
+                --framer-aspect-ratio-supported: auto;
+            }
+        }
+
+        body {
+            --framer-will-change-override: none;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 95%;
+                max-height: 85vh;
+                margin: 15px;
+                border-radius: 20px;
+            }
+
+            form {
+                padding: 20px;
+                gap: 15px;
+            }
+
+            form h2 {
+                font-size: 24px;
+                margin-bottom: 16px;
+            }
+
+            .form-fields {
+                gap: 15px;
+            }
+
+            .form-group input:not([type="checkbox"]),
+            .form-group select {
+                height: 45px;
+                font-size: 16px; /* Better for mobile readability */
+            }
+
+            .form-group.checkbox {
+                margin-top: 10px;
+            }
+
+            .form-group.checkbox input {
+                width: 22px;
+                height: 22px;
+            }
+
+            .submit-button {
+                height: 50px;
+                font-size: 16px;
+            }
+
+            .close-button {
+                top: 15px;
+                right: 15px;
+                width: 30px;
+                height: 30px;
+                font-size: 24px;
+            }
+
+            .form-group.checkbox input {
+                width: 22px;
+                height: 22px;
+            }
+
+            .form-group.checkbox input:checked::after {
+                font-size: 14px;
+            }
+        }
+
+        /* Handle very small screens */
+        @media (max-width: 380px) {
+            .form-container {
+                width: 98%;
+                margin: 10px;
+            }
+
+            form {
+                padding: 15px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .form-group input:not([type="checkbox"]),
+            .form-group select {
+                font-size: 14px;
+                height: 42px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Club Y Logo -->
+        <div class="logo-container" onclick="window.location.href='#'">
+            <img src="club-y.svg" alt="Club Y">
+        </div>
+        
+        <!-- Club Y Header -->
+        <div class="header-container">
+            <img src="header.svg" alt="Club Y" class="header-svg">
+        </div>
+
+        <!-- Intro Text -->
+        <p class="intro">
+            From NYC to the world.<br>
+            We are founders, investors & everyone in between.
+        </p>
+
+        <!-- Tagline -->
+        <h1 class="tagline" onclick="openForm()">Apply to join today</h1>
+
+    </div>
+
+    <!-- Add this right after your container div -->
+    <div id="formOverlay" class="form-overlay">
+        <div class="form-container">
+            <button class="close-button" onclick="closeForm()">×</button>
+            <form id="applicationForm" onsubmit="handleSubmit(event)">
+                <div class="form-fields">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Jane Smith">
+                    </div>
+                    <div class="form-group">
+                        <label>LinkedIn URL</label>
+                        <input type="url" id="linkedin" name="linkedin" required placeholder="http://linkedin.com/in/your-linkedin-handle/">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" name="email" required placeholder="jane@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <select id="location" name="location" required>
+                            <option value="" disabled selected>Select...</option>
+                            <option value="nyc">New York City</option>
+                            <option value="sf">San Francisco</option>
+                            <option value="london">London</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <label for="newsletter">Subscribe to Newsletter</label>
+                    </div>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scroll behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        function openForm() {
+            const overlay = document.getElementById('formOverlay');
+            document.body.style.overflow = 'hidden';
+            overlay.classList.add('active');
+        }
+
+        function closeForm() {
+            const overlay = document.getElementById('formOverlay');
+            document.body.style.overflow = '';
+            overlay.classList.remove('active');
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const submitButton = document.querySelector('.submit-button');
+            const originalText = submitButton.textContent;
+            const form = document.getElementById('applicationForm');
+            
+            try {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
+                
+                // Create form data object
+                const formData = {
+                    name: document.getElementById('name').value,
+                    linkedin: document.getElementById('linkedin').value,
+                    email: document.getElementById('email').value,
+                    location: document.getElementById('location').value,
+                    newsletter: document.getElementById('newsletter').checked
+                };
+                
+                console.log('Form data:', formData);
+                
+                // Use the deployment URL
+                const url = 'https://script.google.com/macros/s/AKfycbxYab6CjHv2bOSJ21ACTcVj70A3vUPcwGN5BFZQDsRxNk8LBTwQl6Khm0DpeehKyH36/exec';
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Since we're using no-cors, assume success if no error
+                submitButton.textContent = 'Success!';
+                submitButton.style.backgroundColor = '#4CAF50';
+                setTimeout(() => {
+                    closeForm();
+                    form.reset();
+                    submitButton.style.backgroundColor = '#000';
+                    submitButton.textContent = originalText;
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                submitButton.textContent = 'Error - Try Again';
+                submitButton.style.backgroundColor = '#FF4444';
+                submitButton.disabled = false;
+                
+                setTimeout(() => {
+                    submitButton.style.backgroundColor = '#000';
+                    submitButton.textContent = originalText;
+                }, 3000);
+            }
+        }
+
+        // Close form when clicking outside
+        document.getElementById('formOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeForm();
+            }
+        });
+    </script>
+</body>
+</html>
