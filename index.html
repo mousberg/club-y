@@ -255,7 +255,10 @@
         .form-group label {
             color: rgba(0, 0, 0, 0.7);
             font-size: 14px;
-            font-weight: 400;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .form-group input:not([type="checkbox"]),
@@ -488,6 +491,33 @@
                 height: 42px;
             }
         }
+
+        .name-group .name-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .name-group .name-inputs input {
+            width: 50%;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 480px) {
+            .name-group .name-inputs {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .name-group .name-inputs input {
+                width: 100%;
+            }
+        }
+
+        .optional {
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 12px;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body>
@@ -505,7 +535,7 @@
         <!-- Intro Text -->
         <p class="intro">
             From NYC to the world.<br>
-            We are founders, investors & everyone in between.
+            We are founders, investors & those in between.
         </p>
 
         <!-- Tagline -->
@@ -519,31 +549,46 @@
             <button class="close-button" onclick="closeForm()">×</button>
             <form id="applicationForm" onsubmit="handleSubmit(event)">
                 <div class="form-fields">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Jane Smith">
+                    <div class="form-group name-group">
+                        <label>Name *</label>
+                        <div class="name-inputs">
+                            <input type="text" id="firstName" name="firstName" required placeholder="Jane">
+                            <input type="text" id="lastName" name="lastName" required placeholder="Smith">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>LinkedIn URL</label>
-                        <input type="url" id="linkedin" name="linkedin" required placeholder="http://linkedin.com/in/your-linkedin-handle/">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
+                        <label>Email *</label>
                         <input type="email" id="email" name="email" required placeholder="jane@mail.com">
                     </div>
                     <div class="form-group">
-                        <label>Location</label>
+                        <label>LinkedIn URL *</label>
+                        <input type="url" id="linkedin" name="linkedin" required placeholder="http://linkedin.com/in/your-linkedin-handle/">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram <span class="optional">(optional)</span></label>
+                        <input type="text" id="instagram" name="instagram" placeholder="@yourusername">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+1 (123) 456-7890" pattern="[+]?[0-9\s-()]*">
+                    </div>
+                    <div class="form-group">
+                        <label>Location *</label>
                         <select id="location" name="location" required>
                             <option value="" disabled selected>Select...</option>
                             <option value="nyc">New York City</option>
+                            <option value="miami">Miami</option>
                             <option value="sf">San Francisco</option>
                             <option value="london">London</option>
+                            <option value="paris">Paris</option>
+                            <option value="zurich">Zurich</option>
+                            <option value="geneva">Geneva</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
                     <div class="form-group checkbox">
                         <input type="checkbox" id="newsletter" name="newsletter">
-                        <label for="newsletter">Subscribe to Newsletter</label>
+                        <label for="newsletter">Subscribe to our Substack</label>
                     </div>
                 </div>
                 <button type="submit" class="submit-button">Submit</button>
@@ -579,8 +624,11 @@
                 
                 // Create form data object
                 const formData = {
-                    name: document.getElementById('name').value,
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
                     linkedin: document.getElementById('linkedin').value,
+                    instagram: document.getElementById('instagram').value,
+                    phone: document.getElementById('phone').value,
                     email: document.getElementById('email').value,
                     location: document.getElementById('location').value,
                     newsletter: document.getElementById('newsletter').checked
