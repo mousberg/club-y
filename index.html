@@ -536,79 +536,16 @@
             min-width: 80px;
         }
 
-        .animated-city::after {
-            content: 'Paris';
+        .animated-city::before {
+            content: attr(data-city);
             position: absolute;
             left: 0;
             opacity: 1;
-            animation: cycleWords 21s linear infinite;
+            transition: opacity 0.8s ease;
         }
 
-        @keyframes cycleWords {
-            0%, 13% {
-                content: 'Paris';
-                opacity: 1;
-            }
-            14%, 16% {
-                opacity: 0;
-            }
-            17%, 30% {
-                content: 'London';
-                opacity: 1;
-            }
-            31%, 33% {
-                opacity: 0;
-            }
-            34%, 47% {
-                content: 'SF';
-                opacity: 1;
-            }
-            48%, 50% {
-                opacity: 0;
-            }
-            51%, 64% {
-                content: 'Miami';
-                opacity: 1;
-            }
-            65%, 67% {
-                opacity: 0;
-            }
-            68%, 81% {
-                content: 'Zurich';
-                opacity: 1;
-            }
-            82%, 84% {
-                opacity: 0;
-            }
-            85%, 97% {
-                content: 'Geneva';
-                opacity: 1;
-            }
-            98%, 100% {
-                opacity: 0;
-            }
-        }
-
-        /* Add fade effect */
-        .animated-city::after {
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .animated-city.fade::after {
+        .animated-city.transitioning::before {
             opacity: 0;
-        }
-
-        /* Add this for mobile responsiveness */
-        @media (max-width: 768px) {
-            .intro {
-                white-space: normal;
-                font-size: 24px;
-            }
-            
-            .animated-city {
-                min-width: 60px;
-            }
         }
 
         .success-overlay {
@@ -698,7 +635,7 @@
 
         <!-- Intro Text -->
         <p class="intro">
-            <span>From NYC to <span class="animated-city"></span></span>
+            <span>From NYC to <span class="animated-city" data-city="Paris"></span></span>
             <span>We are founders, investors & those in between.</span>
         </p>
 
@@ -747,6 +684,17 @@
                             <option value="paris">Paris</option>
                             <option value="zurich">Zurich</option>
                             <option value="geneva">Geneva</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Who sent you our way? *</label>
+                        <select id="referral" name="referral" required>
+                            <option value="" disabled selected>Select...</option>
+                            <option value="ny-miami">NY-Miami Community</option>
+                            <option value="fos">FOS chat</option>
+                            <option value="yorkseed">Yorkseed</option>
+                            <option value="genzvc">Gen Z VC</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
@@ -804,13 +752,14 @@
                     phone: document.getElementById('phone').value,
                     email: document.getElementById('email').value,
                     location: document.getElementById('location').value,
+                    referral: document.getElementById('referral').value,
                     newsletter: document.getElementById('newsletter').checked
                 };
                 
                 console.log('Form data:', formData);
                 
                 // Use the deployment URL
-                const url = 'https://script.google.com/macros/s/AKfycbxTcApNGJzZcnbZtcgAEcjRCYSYCMlzsWEaELN4vynY1OOflWTbtmYwXIU1BXGfN3a-/exec';
+                const url = 'https://script.google.com/macros/s/AKfycbxl_xSe94hPHAwjhvmRpDexLZ1Qvjxe0mulrC4YU-Raakb62Pn54dO80ybX8GJsXexh/exec';
                 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -869,6 +818,32 @@
                 closeForm();
             }
         });
+
+        function animateCities() {
+            const cities = ['Paris', 'London', 'SF', 'Miami', 'Zurich', 'Geneva'];
+            let currentIndex = 0;
+            const cityElement = document.querySelector('.animated-city');
+            
+            // Set initial city
+            cityElement.setAttribute('data-city', cities[0]);
+            
+            function updateCity() {
+                const nextIndex = (currentIndex + 1) % cities.length;
+                
+                cityElement.classList.add('transitioning');
+                
+                setTimeout(() => {
+                    cityElement.setAttribute('data-city', cities[nextIndex]);
+                    cityElement.classList.remove('transitioning');
+                    currentIndex = nextIndex;
+                }, 400); // Half of the transition time
+            }
+            
+            setInterval(updateCity, 3000);
+        }
+
+        // Start animation when page loads
+        document.addEventListener('DOMContentLoaded', animateCities);
     </script>
 </body>
 </html>
