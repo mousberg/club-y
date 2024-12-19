@@ -58,11 +58,21 @@
         }
 
         .intro {
+            white-space: nowrap;
             font-size: 33.01px;
             line-height: 1.4;
             margin-bottom: 60px;
             font-weight: 400;
             color: rgba(0, 0, 0, 0.92);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .intro span:first-of-type {
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .tagline {
@@ -143,6 +153,7 @@
             }
 
             .intro {
+                white-space: normal;
                 font-size: 24px;
                 margin-bottom: 40px;
             }
@@ -518,6 +529,87 @@
             font-size: 12px;
             font-weight: normal;
         }
+
+        .animated-city {
+            position: relative;
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        .animated-city::after {
+            content: 'Paris';
+            position: absolute;
+            left: 0;
+            opacity: 1;
+            animation: cycleWords 21s linear infinite;
+        }
+
+        @keyframes cycleWords {
+            0%, 13% {
+                content: 'Paris';
+                opacity: 1;
+            }
+            14%, 16% {
+                opacity: 0;
+            }
+            17%, 30% {
+                content: 'London';
+                opacity: 1;
+            }
+            31%, 33% {
+                opacity: 0;
+            }
+            34%, 47% {
+                content: 'SF';
+                opacity: 1;
+            }
+            48%, 50% {
+                opacity: 0;
+            }
+            51%, 64% {
+                content: 'Miami';
+                opacity: 1;
+            }
+            65%, 67% {
+                opacity: 0;
+            }
+            68%, 81% {
+                content: 'Zurich';
+                opacity: 1;
+            }
+            82%, 84% {
+                opacity: 0;
+            }
+            85%, 97% {
+                content: 'Geneva';
+                opacity: 1;
+            }
+            98%, 100% {
+                opacity: 0;
+            }
+        }
+
+        /* Add fade effect */
+        .animated-city::after {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .animated-city.fade::after {
+            opacity: 0;
+        }
+
+        /* Add this for mobile responsiveness */
+        @media (max-width: 768px) {
+            .intro {
+                white-space: normal;
+                font-size: 24px;
+            }
+            
+            .animated-city {
+                min-width: 60px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -534,12 +626,12 @@
 
         <!-- Intro Text -->
         <p class="intro">
-            From NYC to the world.<br>
-            We are founders, investors & those in between.
+            <span>From NYC to <span class="animated-city"></span></span>
+            <span>We are founders, investors & those in between.</span>
         </p>
 
         <!-- Tagline -->
-        <h1 class="tagline" onclick="openForm()">Apply to join today</h1>
+        <h1 class="tagline" onclick="openForm()">Apply to join the club</h1>
 
     </div>
 
@@ -588,7 +680,7 @@
                     </div>
                     <div class="form-group checkbox">
                         <input type="checkbox" id="newsletter" name="newsletter">
-                        <label for="newsletter">Subscribe to our Substack</label>
+                        <label for="newsletter">Subscribe to Club Y Substack</label>
                     </div>
                 </div>
                 <button type="submit" class="submit-button">Submit</button>
@@ -637,7 +729,7 @@
                 console.log('Form data:', formData);
                 
                 // Use the deployment URL
-                const url = 'https://script.google.com/macros/s/AKfycbyl5teMoMSEBUNPgTdPZsuz5HRG-pRKdWxDzOrV00S-pPmgU1RyuVW71WQPVXfvKCtH/exec';
+                const url = 'https://script.google.com/macros/s/AKfycbxTcApNGJzZcnbZtcgAEcjRCYSYCMlzsWEaELN4vynY1OOflWTbtmYwXIU1BXGfN3a-/exec';
                 
                 const response = await fetch(url, {
                     method: 'POST',
