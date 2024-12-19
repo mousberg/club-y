@@ -573,7 +573,7 @@
             height: 100%;
             transform: translateY(100%);
             opacity: 0;
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             white-space: nowrap;
             display: block;
         }
@@ -1134,16 +1134,18 @@
                 currentText.classList.remove('current');
                 currentText.classList.add('previous');
                 
-                // Create and animate new text
+                // Create new text but wait to animate it
                 const newText = document.createElement('span');
                 newText.className = 'animated-city-text';
                 newText.textContent = cities[nextIndex];
                 cityElement.appendChild(newText);
                 
-                // Trigger animation
-                requestAnimationFrame(() => {
-                    newText.classList.add('current');
-                });
+                // Wait for previous text to start moving before showing new text
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        newText.classList.add('current');
+                    });
+                }, 250); // Half of the transition time
                 
                 // Cleanup after animation
                 setTimeout(() => {
