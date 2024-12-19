@@ -653,6 +653,17 @@
                 margin-bottom: 40px;
             }
         }
+
+        .substack-link {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease;
+        }
+
+        .substack-link:hover {
+            border-color: rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body>
@@ -734,7 +745,7 @@
                     </div>
                     <div class="form-group checkbox">
                         <input type="checkbox" id="newsletter" name="newsletter">
-                        <label for="newsletter">Subscribe to Club Y Substack</label>
+                        <label for="newsletter">Subscribe to <a href="https://substack.com/@wearecluby" target="_blank" class="substack-link">Club Y Substack</a></label>
                     </div>
                 </div>
                 <button type="submit" class="submit-button">Submit</button>
