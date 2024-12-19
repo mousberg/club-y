@@ -27,6 +27,8 @@
     <link rel="manifest" href="favicon/site.webmanifest">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -813,6 +815,56 @@
             text-align: center;
             margin-top: 20px;
         }
+
+        /* Add this CSS */
+        .instagram-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .instagram-prefix {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(0, 0, 0, 0.7);
+            pointer-events: none;
+        }
+
+        .instagram-input {
+            padding-left: 35px !important; /* Make room for the @ symbol */
+        }
+
+        .iti {
+            width: 100%;
+            display: block;
+        }
+
+        #phone {
+            padding-left: 90px !important; /* Consistent padding for all country codes */
+            font-size: 14px; /* Match other input sizes */
+        }
+
+        .iti__selected-flag {
+            padding: 0 12px 0 15px; /* More consistent flag padding */
+            background: rgba(255, 255, 255, 0.5) !important;
+            border-radius: 30px 0 0 30px;
+        }
+
+        .iti__selected-dial-code {
+            font-size: 14px; /* Match input text size */
+            color: rgba(0, 0, 0, 0.7); /* Match input text color */
+        }
+
+        .iti__country-list {
+            border-radius: 15px;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .iti__flag-container {
+            margin-top: 1px; /* Fine-tune vertical alignment */
+        }
     </style>
 </head>
 <body>
@@ -868,11 +920,14 @@
                     </div>
                     <div class="form-group">
                         <label>Instagram <span class="optional">(optional)</span></label>
-                        <input type="text" id="instagram" name="instagram" placeholder="@yourusername">
+                        <div class="instagram-input-wrapper">
+                            <span class="instagram-prefix">@</span>
+                            <input type="text" id="instagram" name="instagram" class="instagram-input" placeholder="yourusername">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Phone Number *</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="+1 (123) 456-7890" pattern="[+]?[0-9\s-()]*">
+                        <input type="tel" id="phone" name="phone" required>
                     </div>
                     <div class="form-group">
                         <label>Location *</label>
@@ -961,6 +1016,11 @@
                 }
             });
             
+            if (!phoneInput.isValidNumber()) {
+                document.querySelector("#phone").classList.add('error');
+                return false;
+            }
+            
             return isValid;
         }
 
@@ -985,8 +1045,10 @@
                     firstName: document.getElementById('firstName').value.trim(),
                     lastName: document.getElementById('lastName').value.trim(),
                     linkedin: document.getElementById('linkedin').value.trim(),
-                    instagram: document.getElementById('instagram').value.trim(),
-                    phone: document.getElementById('phone').value.trim(),
+                    instagram: document.getElementById('instagram').value.trim()
+                        ? '@' + document.getElementById('instagram').value.trim().replace('@', '')
+                        : '',
+                    phone: phoneInput.isValidNumber() ? phoneInput.getNumber(intlTelInputUtils.numberFormat.E164) : '',
                     email: document.getElementById('email').value.trim(),
                     location: document.getElementById('location').value,
                     referral: document.getElementById('referral').value,
@@ -1106,6 +1168,37 @@
             document.getElementById('linkedin').classList.add('error');
             isValid = false;
         }
+
+        // Initialize phone input with more options
+        const phoneInput = window.intlTelInput(document.querySelector("#phone"), {
+            preferredCountries: ["us", "gb", "fr", "ch"],
+            separateDialCode: true,
+            formatOnDisplay: true,
+            allowExtensions: true,
+            autoHideDialCode: false,
+            nationalMode: false,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+
+        // Handle phone input changes
+        document.querySelector("#phone").addEventListener("input", function(e) {
+            let number = e.target.value.trim();
+            if (number.startsWith('+')) {
+                // Try to find country by dial code
+                const dialCode = number.match(/^\+(\d+)/)?.[1];
+                if (dialCode) {
+                    const countryData = phoneInput.getSelectedCountryData();
+                    if (dialCode !== countryData.dialCode) {
+                        const country = [...phoneInput.getCountryData()].find(
+                            country => country.dialCode === dialCode
+                        );
+                        if (country) {
+                            phoneInput.setCountry(country.iso2);
+                        }
+                    }
+                }
+            }
+        });
     </script>
 </body>
 </html>
