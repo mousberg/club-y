@@ -15,7 +15,6 @@
 
         body {
             font-family: 'Inter Tight', sans-serif;
-            background: linear-gradient(to bottom right, #FFFFFF, #F8F3FF);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -534,18 +533,34 @@
         .animated-city {
             position: relative;
             display: inline-block;
-            min-width: 80px;
+            min-width: 115px;
+            font-weight: 500;
+            height: 1.4em;
+            overflow: hidden;
+            text-align: left;
         }
 
-        .animated-city::before {
-            content: attr(data-city);
+        .animated-city-text {
             position: absolute;
             left: 0;
-            opacity: 1;
-            transition: opacity 0.8s ease;
+            top: 0;
+            width: auto;
+            min-width: 100%;
+            height: 100%;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.5s ease;
+            white-space: nowrap;
+            display: block;
         }
 
-        .animated-city.transitioning::before {
+        .animated-city-text.current {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .animated-city-text.previous {
+            transform: translateY(-100%);
             opacity: 0;
         }
 
@@ -626,7 +641,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 4px;
             font-size: 15px;
             color: #9D9D9D;
             width: 100%;
@@ -664,9 +679,111 @@
         .substack-link:hover {
             border-color: rgba(0, 0, 0, 0.8);
         }
+
+        .gradient-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            filter: blur(80px);
+            -webkit-filter: blur(80px);
+        }
+
+        .gradient-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .gradient-container::before,
+        .gradient-container::after,
+        .gradient-container .triangle-1,
+        .gradient-container .triangle-2,
+        .gradient-container .triangle-3 {
+            content: '';
+            position: absolute;
+            width: 1000px;
+            height: 1000px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .gradient-container::before {
+            background: rgba(213, 175, 255, 0.15);
+            top: -20%;
+            right: -30%;
+            animation: floatTriangle1 20s infinite;
+        }
+
+        .gradient-container::after {
+            background: rgba(255, 255, 255, 0.3);
+            top: -10%;
+            right: -20%;
+            animation: floatTriangle2 25s infinite;
+        }
+
+        .gradient-container .triangle-1 {
+            background: rgba(213, 175, 255, 0.2);
+            top: 0%;
+            right: -10%;
+            animation: floatTriangle3 22s infinite;
+        }
+
+        .gradient-container .triangle-2 {
+            background: rgba(255, 255, 255, 0.25);
+            top: -15%;
+            right: -25%;
+            animation: floatTriangle4 18s infinite;
+        }
+
+        .gradient-container .triangle-3 {
+            background: rgba(213, 175, 255, 0.1);
+            top: 5%;
+            right: -15%;
+            animation: floatTriangle5 23s infinite;
+        }
+
+        @keyframes floatTriangle1 {
+            0% { transform: rotate(0deg) translateY(0) scale(1); }
+            50% { transform: rotate(180deg) translateY(40px) scale(1.1); }
+            100% { transform: rotate(360deg) translateY(0) scale(1); }
+        }
+
+        @keyframes floatTriangle2 {
+            0% { transform: rotate(180deg) translateY(0) scale(1.1); }
+            50% { transform: rotate(0deg) translateY(-40px) scale(1); }
+            100% { transform: rotate(-180deg) translateY(0) scale(1.1); }
+        }
+
+        @keyframes floatTriangle3 {
+            0% { transform: rotate(-90deg) translateX(0) scale(1); }
+            50% { transform: rotate(90deg) translateX(40px) scale(1.2); }
+            100% { transform: rotate(270deg) translateX(0) scale(1); }
+        }
+
+        @keyframes floatTriangle4 {
+            0% { transform: rotate(45deg) translate(0, 0) scale(1.1); }
+            50% { transform: rotate(225deg) translate(30px, -30px) scale(0.9); }
+            100% { transform: rotate(405deg) translate(0, 0) scale(1.1); }
+        }
+
+        @keyframes floatTriangle5 {
+            0% { transform: rotate(-45deg) translate(0, 0) scale(0.9); }
+            50% { transform: rotate(135deg) translate(-30px, 30px) scale(1.1); }
+            100% { transform: rotate(315deg) translate(0, 0) scale(0.9); }
+        }
     </style>
 </head>
 <body>
+    <div class="gradient-blur">
+        <div class="gradient-container">
+            <div class="triangle-1"></div>
+            <div class="triangle-2"></div>
+            <div class="triangle-3"></div>
+        </div>
+    </div>
     <div class="container">
         <!-- Club Y Logo -->
         <div class="logo-container" onclick="window.location.href='#'">
@@ -769,6 +886,8 @@
             <img src="WL-footer.svg" alt="Workshop Lab" class="footer-logo">
         </a>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/gradient-animation@2.0.0/dist/gradient-animation.min.js"></script>
 
     <script>
         // Add smooth scroll behavior
@@ -877,19 +996,36 @@
             let currentIndex = 0;
             const cityElement = document.querySelector('.animated-city');
             
-            // Set initial city
-            cityElement.setAttribute('data-city', cities[0]);
+            // Create initial text
+            let currentText = document.createElement('span');
+            currentText.className = 'animated-city-text current';
+            currentText.textContent = cities[0];
+            cityElement.appendChild(currentText);
             
             function updateCity() {
                 const nextIndex = (currentIndex + 1) % cities.length;
                 
-                cityElement.classList.add('transitioning');
+                // Move current text up
+                currentText.classList.remove('current');
+                currentText.classList.add('previous');
                 
+                // Create and animate new text
+                const newText = document.createElement('span');
+                newText.className = 'animated-city-text';
+                newText.textContent = cities[nextIndex];
+                cityElement.appendChild(newText);
+                
+                // Trigger animation
+                requestAnimationFrame(() => {
+                    newText.classList.add('current');
+                });
+                
+                // Cleanup after animation
                 setTimeout(() => {
-                    cityElement.setAttribute('data-city', cities[nextIndex]);
-                    cityElement.classList.remove('transitioning');
+                    cityElement.removeChild(currentText);
+                    currentText = newText;
                     currentIndex = nextIndex;
-                }, 400); // Half of the transition time
+                }, 500);
             }
             
             setInterval(updateCity, 3000);
