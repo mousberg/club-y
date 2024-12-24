@@ -79,6 +79,7 @@
     <div id="formOverlay" class="form-overlay">
         <div class="form-container">
             <button class="close-button" onclick="closeForm()">×</button>
+            <div class="scroll-indicator">↓</div>
             <form id="applicationForm" onsubmit="handleSubmit(event)">
                 <div class="form-fields">
                     <div class="form-group name-group">
@@ -149,10 +150,15 @@
                         <label for="newsletter">Subscribe to <a href="https://substack.com/@wearecluby" target="_blank" class="substack-link">Club Y Substack</a></label>
                     </div>
                 </div>
-                <p class="privacy-notice">
-                    By submitting this form, you agree to our <a href="privacy.html" class="substack-link">data collection practices</a>. We handle all information with care and respect your privacy.
-                </p>
-                <button type="submit" class="submit-button">Submit</button>
+                
+                <div class="privacy-notice">
+                    By submitting this form, you agree to our <a href="privacy.html" class="substack-link">data collection practices</a>. 
+                    We handle all information with care and respect your privacy.
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-button">Submit</button>
+                </div>
             </form>
         </div>
     </div>
@@ -409,6 +415,15 @@
                 document.getElementById('referrerLastName').required = referralSelect.value === 'other';
             }
         }
+
+        document.querySelector('form').addEventListener('scroll', function(e) {
+            const form = e.target;
+            const container = document.querySelector('.form-container');
+            
+            // Check if we're at the bottom
+            const isAtBottom = form.scrollHeight - form.scrollTop <= form.clientHeight + 50;
+            container.classList.toggle('at-bottom', isAtBottom);
+        });
     </script>
 </body>
 </html>

@@ -142,8 +142,6 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: 20px;
-    overflow-y: auto;
 }
 
 .form-overlay.active {
@@ -157,14 +155,32 @@ body {
 
 .form-container {
     width: min(814px, 95%);
+    max-height: 90vh;
     position: relative;
-    margin: auto;
+    margin: 20px auto;
     background-color: rgba(255, 255, 255, 0.45);
     border-radius: 30px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-    max-height: min(800px, 90vh);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1) 50%, transparent);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.form-container.is-scrollable::after {
+    opacity: 1;
 }
 
 .form-container::-webkit-scrollbar {
@@ -202,15 +218,19 @@ body {
 }
 
 form {
-    align-content: flex-start;
-    align-items: flex-start;
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    height: min-content;
-    justify-content: flex-start;
-    padding: min(40px, 5vw);
-    width: 100%;
+    min-height: 100%;
+}
+
+/* Hide scrollbar */
+form::-webkit-scrollbar {
+    display: none;
 }
 
 .form-fields {
@@ -328,8 +348,7 @@ form {
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .submit-button:disabled {
@@ -604,8 +623,9 @@ form h2 {
 .privacy-notice {
     font-size: 12px;
     color: rgba(0, 0, 0, 0.5);
-    text-align: center;
-    margin-top: 20px;
+    text-align: left;
+    padding: 20px 0;
+    margin-top: auto;
 }
 
 .instagram-input-wrapper {
@@ -1057,6 +1077,49 @@ body {
 .close-success:active {
     transform: translateY(1px);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-} 
+}
+
+/* Update submit button container */
+.form-actions {
+    padding: 0 0 20px 0;
+    text-align: center;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    form {
+        padding: 20px;
+    }
+    
+    .privacy-notice {
+        padding: 15px 0;
+    }
+    
+    .form-actions {
+        padding: 0 0 15px 0;
+    }
+}
+
+/* Add subtle arrows indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+    pointer-events: none;
+    animation: fadeInOut 2s ease-in-out infinite;
+    z-index: 10;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+}
+
+/* Hide when at bottom of scroll */
+.at-bottom .scroll-indicator {
+    display: none;
+}
 
 
