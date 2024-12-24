@@ -190,6 +190,7 @@
             const overlay = document.getElementById('formOverlay');
             document.body.style.overflow = 'hidden';
             overlay.classList.add('active');
+            setTimeout(updateScrollIndicator, 100); // Check after animation
         }
 
         function closeForm() {
@@ -424,6 +425,40 @@
             const isAtBottom = form.scrollHeight - form.scrollTop <= form.clientHeight + 50;
             container.classList.toggle('at-bottom', isAtBottom);
         });
+
+        // Add this function to check if form needs scrolling
+        function updateScrollIndicator() {
+            const form = document.querySelector('form');
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            
+            // Only show arrow if content is scrollable
+            if (form.scrollHeight > form.clientHeight + 20) { // Added small buffer
+                scrollIndicator.style.display = 'block';
+            } else {
+                scrollIndicator.style.display = 'none';
+            }
+        }
+
+        // Update the openForm function
+        function openForm() {
+            const overlay = document.getElementById('formOverlay');
+            document.body.style.overflow = 'hidden';
+            overlay.classList.add('active');
+            setTimeout(updateScrollIndicator, 100); // Check after animation
+        }
+
+        // Add scroll event listener
+        document.querySelector('form').addEventListener('scroll', function(e) {
+            const form = e.target;
+            const container = document.querySelector('.form-container');
+            
+            // Check if we're at the bottom
+            const isAtBottom = form.scrollHeight - form.scrollTop <= form.clientHeight + 50;
+            container.classList.toggle('at-bottom', isAtBottom);
+        });
+
+        // Update on window resize
+        window.addEventListener('resize', updateScrollIndicator);
     </script>
 </body>
 </html>
