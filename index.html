@@ -109,28 +109,38 @@
                     </div>
                     <div class="form-group">
                         <label>Location *</label>
-                        <select id="location" name="location" required>
+                        <select id="location" name="location" required onchange="toggleOtherInput('location')">
                             <option value="" disabled selected>Select...</option>
                             <option value="nyc">New York City</option>
-                            <option value="miami">Miami</option>
-                            <option value="sf">San Francisco</option>
                             <option value="london">London</option>
                             <option value="paris">Paris</option>
                             <option value="zurich">Zurich</option>
                             <option value="geneva">Geneva</option>
                             <option value="other">Other</option>
                         </select>
+                        <input type="text" id="otherLocation" name="otherLocation" 
+                               placeholder="Please specify your city" 
+                               style="display: none; margin-top: 10px;">
                     </div>
                     <div class="form-group">
                         <label>Who sent you our way? *</label>
-                        <select id="referral" name="referral" required>
+                        <select id="referral" name="referral" required onchange="toggleOtherInput('referral')">
                             <option value="" disabled selected>Select...</option>
-                            <option value="ny-miami">NY-Miami Community</option>
-                            <option value="fos">FOS chat</option>
-                            <option value="yorkseed">Yorkseed</option>
-                            <option value="genzvc">Gen Z VC</option>
+                            <option value="club-y-paris">Club Y Paris Event</option>
+                            <option value="club-y-london">Club Y London Event</option>
+                            <option value="club-y-retreat">Club Y Retreat</option>
+                            <option value="ny-community">New York Community</option>
+                            <option value="genzvc">Gen Z VC Chat</option>
+                            <option value="fos-london">FOS London Chat</option>
+                            <option value="yorkseed">Yorkseed Hub</option>
                             <option value="other">Other</option>
                         </select>
+                        <div id="otherReferralInputs" style="display: none; margin-top: 10px;">
+                            <input type="text" id="referrerFirstName" name="referrerFirstName" 
+                                   placeholder="Referrer's First Name" style="margin-bottom: 10px;">
+                            <input type="text" id="referrerLastName" name="referrerLastName" 
+                                   placeholder="Referrer's Last Name">
+                        </div>
                     </div>
                     <div class="form-group checkbox">
                         <input type="checkbox" id="newsletter" name="newsletter">
@@ -229,11 +239,14 @@
                     phone: phoneInput.isValidNumber() ? phoneInput.getNumber(intlTelInputUtils.numberFormat.E164) : '',
                     email: document.getElementById('email').value.trim(),
                     location: document.getElementById('location').value,
+                    otherLocation: document.getElementById('otherLocation').value.trim(),
                     referral: document.getElementById('referral').value,
+                    referrerFirstName: document.getElementById('referrerFirstName').value.trim(),
+                    referrerLastName: document.getElementById('referrerLastName').value.trim(),
                     newsletter: document.getElementById('newsletter').checked
                 };
                 
-                const url = 'https://script.google.com/macros/s/AKfycbxl_xSe94hPHAwjhvmRpDexLZ1Qvjxe0mulrC4YU-Raakb62Pn54dO80ybX8GJsXexh/exec';
+                const url = 'https://script.google.com/macros/s/AKfycbyRFGj0h0YfyUfbuDmOh_hUMP63nSS1v0B7YCgypM3V2xHJFwLIHzr2XvzMiKLKt1Ol/exec';
                 
                 await fetch(url, {
                     method: 'POST',
@@ -379,6 +392,21 @@
                 }
             }
         });
+
+        function toggleOtherInput(type) {
+            if (type === 'location') {
+                const locationSelect = document.getElementById('location');
+                const otherLocation = document.getElementById('otherLocation');
+                otherLocation.style.display = locationSelect.value === 'other' ? 'block' : 'none';
+                otherLocation.required = locationSelect.value === 'other';
+            } else if (type === 'referral') {
+                const referralSelect = document.getElementById('referral');
+                const otherInputs = document.getElementById('otherReferralInputs');
+                otherInputs.style.display = referralSelect.value === 'other' ? 'block' : 'none';
+                document.getElementById('referrerFirstName').required = referralSelect.value === 'other';
+                document.getElementById('referrerLastName').required = referralSelect.value === 'other';
+            }
+        }
     </script>
 </body>
 </html>

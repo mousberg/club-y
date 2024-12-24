@@ -142,6 +142,8 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    padding: 20px;
+    overflow-y: auto;
 }
 
 .form-overlay.active {
@@ -154,29 +156,33 @@ body {
 }
 
 .form-container {
-    /* Border properties */
-    --border-bottom-width: 1px;
-    --border-color: #ffffff;
-    --border-left-width: 1px;
-    --border-right-width: 1px;
-    --border-style: solid;
-    --border-top-width: 1px;
-    
-    /* Core styles */
     width: min(814px, 95%);
-    height: auto;
-    min-height: min-content;
-    max-height: 90vh;
     position: relative;
-    margin: 20px;
-    
-    /* Visual styles */
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    margin: auto;
     background-color: rgba(255, 255, 255, 0.45);
     border-radius: 30px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-    overflow: auto;
+    max-height: min(800px, 90vh);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.form-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.form-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
 }
 
 /* Add the border using pseudo-element */
@@ -241,6 +247,19 @@ form {
     width: 100%;
 }
 
+#otherLocation,
+#referrerFirstName,
+#referrerLastName {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    font-size: 14px;
+    height: 40px;
+    padding: 0 20px;
+    width: 100%;
+}
+
+
 .form-group.checkbox {
     flex-direction: row;
     align-items: center;
@@ -285,6 +304,12 @@ form {
 }
 
 .form-group.checkbox:hover input {
+    #otherLocation:hover,
+    #referrerFirstName:hover,
+    #referrerLastName:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
     border-color: rgba(0, 0, 0, 0.2);
 }
 
