@@ -451,14 +451,72 @@
         document.querySelector('form').addEventListener('scroll', function(e) {
             const form = e.target;
             const container = document.querySelector('.form-container');
+            const scrollIndicator = document.querySelector('.scroll-indicator');
             
             // Check if we're at the bottom
             const isAtBottom = form.scrollHeight - form.scrollTop <= form.clientHeight + 50;
-            container.classList.toggle('at-bottom', isAtBottom);
+            
+            // Toggle arrow direction
+            if (isAtBottom) {
+                scrollIndicator.classList.add('up');
+            } else {
+                scrollIndicator.classList.remove('up');
+            }
+            
+            // Hide when at bottom and user scrolls further
+            if (form.scrollHeight - form.scrollTop <= form.clientHeight) {
+                scrollIndicator.style.display = 'none';
+            } else if (form.scrollHeight > form.clientHeight + 20) {
+                scrollIndicator.style.display = 'block';
+            }
         });
 
         // Update on window resize
         window.addEventListener('resize', updateScrollIndicator);
+
+        // Add click handler for scroll indicator
+        document.querySelector('.scroll-indicator').addEventListener('click', function() {
+            const form = document.querySelector('form');
+            const isAtBottom = form.scrollHeight - form.scrollTop <= form.clientHeight + 50;
+            
+            // If near bottom, scroll to top, otherwise scroll to bottom
+            if (isAtBottom) {
+                form.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                form.scrollTo({
+                    top: form.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+
+        // Update scroll event listener
+        document.querySelector('form').addEventListener('scroll', function(e) {
+            const form = e.target;
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            
+            // Check if we're at the bottom
+            const isAtBottom = form.scrollHeight - form.scrollTop <= form.clientHeight + 50;
+            
+            // Toggle arrow direction and update title
+            if (isAtBottom) {
+                scrollIndicator.classList.add('up');
+                scrollIndicator.title = 'Scroll to top';
+            } else {
+                scrollIndicator.classList.remove('up');
+                scrollIndicator.title = 'Scroll to bottom';
+            }
+            
+            // Hide when at bottom and user scrolls further
+            if (form.scrollHeight - form.scrollTop <= form.clientHeight) {
+                scrollIndicator.style.display = 'none';
+            } else if (form.scrollHeight > form.clientHeight + 20) {
+                scrollIndicator.style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
