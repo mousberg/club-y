@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Y</title>
+    
+    <!-- SEO and social sharing meta tags -->
+    <meta name="description" content="Club Y - A global community of founders, investors & those in between.">
+    <meta property="og:title" content="Club Y">
+    <meta property="og:description" content="From NYC to the world. We are founders, investors & those in between.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://club-y.co">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Club Y - A global community of founders, investors & those in between" />
+    <meta name="twitter:description" content="From NYC to the world. We are founders, investors & those in between." />
+    <meta name="twitter:image" content="favicon/android-chrome-512x512.png" />
+    
+    <!-- Update favicon links to use favicon folder -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    
+    <!-- Add the link to external CSS file -->
+    <link rel="stylesheet" href="styles.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Club Y",
+        "url": "https://club-y.co",
+        "logo": "https://club-y.co/club-y.svg",
+        "description": "A global community of founders, investors & those in between.",
+        "sameAs": [
+            "https://substack.com/@wearecluby"
+        ]
+    }
+    </script>
+</head>
+<body>
+    <div class="gradient-blur">
+        <div class="gradient-container">
+            <div class="triangle-1"></div>
+            <div class="triangle-2"></div>
+            <div class="triangle-3"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Club Y Logo -->
+        <div class="logo-container" onclick="window.location.href='#'">
+            <img src="club-y.svg" alt="Club Y">
+        </div>
+        
+        <!-- Club Y Header -->
+        <div class="header-container">
+            <img src="header.svg" alt="Club Y" class="header-svg">
+        </div>
+
+        <!-- Intro Text -->
+        <p class="intro">
+            <span>From NYC to <span class="animated-city" data-city="Paris"></span></span>
+            <span>We are founders, investors & those in between.</span>
+        </p>
+
+        <!-- Tagline -->
+        <h1 class="tagline" onclick="openForm()">Enter the chapter...</h1>
+
+    </div>
+
+    <!-- Add this right after your container div -->
+    <div id="formOverlay" class="form-overlay">
+        <div class="form-container">
+            <button class="close-button" onclick="closeForm()">×</button>
+            <form id="applicationForm" onsubmit="handleSubmit(event)">
+                <div class="form-fields">
+                    <div class="form-group name-group">
+                        <label>Name *</label>
+                        <div class="name-inputs">
+                            <input type="text" id="firstName" name="firstName" required placeholder="Jane">
+                            <input type="text" id="lastName" name="lastName" required placeholder="Smith">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="jane@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>LinkedIn URL *</label>
+                        <input type="url" id="linkedin" name="linkedin" required placeholder="http://linkedin.com/in/your-linkedin-handle/">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram <span class="optional">(optional)</span></label>
+                        <div class="instagram-input-wrapper">
+                            <span class="instagram-prefix">@</span>
+                            <input type="text" id="instagram" name="instagram" class="instagram-input" placeholder="yourusername">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location *</label>
+                        <select id="location" name="location" required>
+                            <option value="" disabled selected>Select...</option>
+                            <option value="nyc">New York City</option>
+                            <option value="miami">Miami</option>
+                            <option value="sf">San Francisco</option>
+                            <option value="london">London</option>
+                            <option value="paris">Paris</option>
+                            <option value="zurich">Zurich</option>
+                            <option value="geneva">Geneva</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Who sent you our way? *</label>
+                        <select id="referral" name="referral" required>
+                            <option value="" disabled selected>Select...</option>
+                            <option value="ny-miami">NY-Miami Community</option>
+                            <option value="fos">FOS chat</option>
+                            <option value="yorkseed">Yorkseed</option>
+                            <option value="genzvc">Gen Z VC</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <label for="newsletter">Subscribe to <a href="https://substack.com/@wearecluby" target="_blank" class="substack-link">Club Y Substack</a></label>
+                    </div>
+                </div>
+                <p class="privacy-notice">
+                    By submitting this form, you agree to our <a href="privacy.html" class="substack-link">data collection practices</a>. We handle all information with care and respect your privacy.
+                </p>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add this right after your form-overlay div -->
+    <div id="successOverlay" class="success-overlay">
+        <div class="success-container">
+            <h2>Thank you for applying!</h2>
+            <p>We've received your application and will be in touch with next steps soon.</p>
+            <button class="close-success" onclick="closeSuccess()">Close</button>
+        </div>
+    </div>
+
+    <!-- Move the footer outside the container -->
+    <footer class="footer">
+        product of
+        <a href="https://workshoplab.org" target="_blank" class="footer-link">
+            <img src="WL-footer.svg" alt="Workshop Lab" class="footer-logo">
+        </a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/gradient-animation@2.0.0/dist/gradient-animation.min.js"></script>
+
+    <script>
+        // Add smooth scroll behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        function openForm() {
+            const overlay = document.getElementById('formOverlay');
+            document.body.style.overflow = 'hidden';
+            overlay.classList.add('active');
+        }
+
+        function closeForm() {
+            const overlay = document.getElementById('formOverlay');
+            document.body.style.overflow = '';
+            overlay.classList.remove('active');
+        }
+
+        function validateForm() {
+            const form = document.getElementById('applicationForm');
+            const inputs = form.querySelectorAll('[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('error');
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+            
+            if (!phoneInput.isValidNumber()) {
+                document.querySelector("#phone").classList.add('error');
+                return false;
+            }
+            
+            return isValid;
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+            
+            const submitButton = document.querySelector('.submit-button');
+            const form = document.getElementById('applicationForm');
+            const inputs = form.querySelectorAll('input, select');
+            
+            // Disable form while submitting
+            inputs.forEach(input => input.disabled = true);
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+            
+            try {
+                const formData = {
+                    firstName: document.getElementById('firstName').value.trim(),
+                    lastName: document.getElementById('lastName').value.trim(),
+                    linkedin: document.getElementById('linkedin').value.trim(),
+                    instagram: document.getElementById('instagram').value.trim()
+                        ? '@' + document.getElementById('instagram').value.trim().replace('@', '')
+                        : '',
+                    phone: phoneInput.isValidNumber() ? phoneInput.getNumber(intlTelInputUtils.numberFormat.E164) : '',
+                    email: document.getElementById('email').value.trim(),
+                    location: document.getElementById('location').value,
+                    referral: document.getElementById('referral').value,
+                    newsletter: document.getElementById('newsletter').checked
+                };
+                
+                const url = 'https://script.google.com/macros/s/AKfycbxl_xSe94hPHAwjhvmRpDexLZ1Qvjxe0mulrC4YU-Raakb62Pn54dO80ybX8GJsXexh/exec';
+                
+                await fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                submitButton.textContent = 'Success!';
+                submitButton.style.backgroundColor = '#4CAF50';
+                
+                setTimeout(() => {
+                    closeForm();
+                    form.reset();
+                    submitButton.style.backgroundColor = '#000';
+                    submitButton.textContent = 'Submit';
+                    showSuccess();
+                }, 1500);
+                
+            } catch (error) {
+                submitButton.textContent = 'Error - Try Again';
+                submitButton.style.backgroundColor = '#FF4444';
+                
+                setTimeout(() => {
+                    submitButton.style.backgroundColor = '#000';
+                    submitButton.textContent = 'Submit';
+                    submitButton.disabled = false;
+                }, 3000);
+            } finally {
+                // Re-enable form inputs
+                inputs.forEach(input => input.disabled = false);
+            }
+        }
+
+        function showSuccess() {
+            const successOverlay = document.getElementById('successOverlay');
+            successOverlay.classList.add('active');
+        }
+
+        function closeSuccess() {
+            const successOverlay = document.getElementById('successOverlay');
+            successOverlay.classList.remove('active');
+        }
+
+        // Close success overlay when clicking outside
+        document.getElementById('successOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeSuccess();
+            }
+        });
+
+        // Close form when clicking outside
+        document.getElementById('formOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeForm();
+            }
+        });
+
+        function animateCities() {
+            const cities = ['Paris', 'London', 'SF', 'Miami', 'Zurich', 'Geneva'];
+            let currentIndex = 0;
+            const cityElement = document.querySelector('.animated-city');
+            
+            // Create initial text
+            let currentText = document.createElement('span');
+            currentText.className = 'animated-city-text current';
+            currentText.textContent = cities[0];
+            cityElement.appendChild(currentText);
+            
+            function updateCity() {
+                const nextIndex = (currentIndex + 1) % cities.length;
+                
+                // Move current text up
+                currentText.classList.remove('current');
+                currentText.classList.add('previous');
+                
+                // Create new text but wait to animate it
+                const newText = document.createElement('span');
+                newText.className = 'animated-city-text';
+                newText.textContent = cities[nextIndex];
+                cityElement.appendChild(newText);
+                
+                // Wait for previous text to start moving before showing new text
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        newText.classList.add('current');
+                    });
+                }, 250); // Half of the transition time
+                
+                // Cleanup after animation
+                setTimeout(() => {
+                    cityElement.removeChild(currentText);
+                    currentText = newText;
+                    currentIndex = nextIndex;
+                }, 500);
+            }
+            
+            setInterval(updateCity, 3000);
+        }
+
+        // Start animation when page loads
+        document.addEventListener('DOMContentLoaded', animateCities);
+
+        function validateLinkedInUrl(url) {
+            return url.match(/^https?:\/\/(www\.)?linkedin\.com\/in\/[\w-]+\/?$/i);
+        }
+
+        // Add to validateForm function
+        if (document.getElementById('linkedin').value && !validateLinkedInUrl(document.getElementById('linkedin').value)) {
+            document.getElementById('linkedin').classList.add('error');
+            isValid = false;
+        }
+
+        // Initialize phone input with more options
+        const phoneInput = window.intlTelInput(document.querySelector("#phone"), {
+            preferredCountries: ["us", "gb", "fr", "ch"],
+            separateDialCode: true,
+            formatOnDisplay: true,
+            allowExtensions: true,
+            autoHideDialCode: false,
+            nationalMode: false,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+
+        // Handle phone input changes
+        document.querySelector("#phone").addEventListener("input", function(e) {
+            let number = e.target.value.trim();
+            if (number.startsWith('+')) {
+                // Try to find country by dial code
+                const dialCode = number.match(/^\+(\d+)/)?.[1];
+                if (dialCode) {
+                    const countryData = phoneInput.getSelectedCountryData();
+                    if (dialCode !== countryData.dialCode) {
+                        const country = [...phoneInput.getCountryData()].find(
+                            country => country.dialCode === dialCode
+                        );
+                        if (country) {
+                            phoneInput.setCountry(country.iso2);
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
