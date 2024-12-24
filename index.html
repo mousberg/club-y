@@ -111,9 +111,11 @@
                         <label>Location *</label>
                         <select id="location" name="location" required onchange="toggleOtherInput('location')">
                             <option value="" disabled selected>Select...</option>
-                            <option value="nyc">New York City</option>
+                            <option value="nyc">New York</option>
                             <option value="london">London</option>
                             <option value="paris">Paris</option>
+                            <option value="miami">Miami</option>
+                            <option value="sf">SF/ Bay Area</option>
                             <option value="zurich">Zurich</option>
                             <option value="geneva">Geneva</option>
                             <option value="other">Other</option>
@@ -246,7 +248,7 @@
                     newsletter: document.getElementById('newsletter').checked
                 };
                 
-                const url = 'https://script.google.com/macros/s/AKfycbyRFGj0h0YfyUfbuDmOh_hUMP63nSS1v0B7YCgypM3V2xHJFwLIHzr2XvzMiKLKt1Ol/exec';
+                const url = 'https://script.google.com/macros/s/AKfycbwgGYqj82P2zGSIuRkZWjO1M-6GJ6cOaRdxR_7HgSjln0Sg8K1ekDLs53eM9fwuNaHt/exec';
                 
                 await fetch(url, {
                     method: 'POST',
