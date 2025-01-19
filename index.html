@@ -46,6 +46,7 @@
     </script>
 </head>
 <body>
+    <div class="page-fade"></div>
     <div class="gradient-blur">
         <div class="gradient-container">
             <div class="triangle-1"></div>
@@ -157,7 +158,7 @@
                 </div>
                 
                 <div class="form-actions">
-                    <button type="submit" class="submit-button">Submit</button>
+                <button type="submit" class="submit-button">Submit</button>
                 </div>
             </form>
         </div>
@@ -516,6 +517,42 @@
             } else if (form.scrollHeight > form.clientHeight + 20) {
                 scrollIndicator.style.display = 'block';
             }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            requestAnimationFrame(() => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 15;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
+                
+                document.querySelector('.gradient-container').style.transform = 
+                    `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateZ(50px)`;
+            });
+        });
+
+        // Add reset on mouse leave
+        document.addEventListener('mouseleave', () => {
+            document.querySelector('.gradient-container').style.transform = 
+                'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+        });
+
+        document.querySelector('.club-y-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            const button = this;
+            const pageFade = document.querySelector('.page-fade');
+            
+            // Start button animation
+            button.classList.add('animating-transition');
+            
+            // Sequence the animations
+            setTimeout(() => {
+                // Fade in white overlay
+                pageFade.classList.add('active');
+                
+                // Redirect after fade
+                setTimeout(() => {
+                    window.location.href = 'https://club-y.co';
+                }, 500);
+            }, 600);
         });
     </script>
 </body>
