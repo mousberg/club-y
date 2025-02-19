@@ -13,6 +13,7 @@ body {
     align-items: center;
     padding: 60px 20px;
     overflow-x: hidden;
+    cursor: auto;
 }
 
 .container {
@@ -71,7 +72,9 @@ body {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    cursor: pointer;
+    cursor: url('/club-y-cursor.svg') 5 0, 
+           url('club-y-cursor.svg') 5 0, 
+           pointer;
     font-family: "Inter Tight", "Inter Tight Placeholder", sans-serif;
     font-size: 70px;
     font-weight: 600;
@@ -1163,4 +1166,18 @@ body {
     width: 100%;
     max-width: 500px;
     margin: 20px auto 0;
+}
+
+/* Show custom cursor only on interactive elements */
+a,
+button,
+.logo-container,
+.tagline,
+select,
+input[type="checkbox"],
+.scroll-indicator,
+.form-group.checkbox label {
+    cursor: url('/club-y-cursor.svg') 5 0, 
+           url('club-y-cursor.svg') 5 0, 
+           pointer;
 }
