@@ -127,7 +127,7 @@
                                style="display: none; margin-top: 10px;">
                     </div>
                     <div class="form-group">
-                        <label>Who sent you our way? *</label>
+                        <label>Who is your source of referral? *</label>
                         <select id="referral" name="referral" required onchange="toggleOtherInput('referral')">
                             <option value="" disabled selected>Select...</option>
                             <option value="club-y-paris">Club Y Paris Event</option>
@@ -145,6 +145,22 @@
                             <input type="text" id="referrerLastName" name="referrerLastName" 
                                    placeholder="Referrer's Last Name">
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label>What best identifies you? *</label>
+                        <select id="identity" name="identity" required onchange="toggleOtherInput('identity')">
+                            <option value="" disabled selected>Select...</option>
+                            <option value="pre-seed-no-revenue">Pre-seed founder with no revenue</option>
+                            <option value="pre-seed-with-product">Pre-seed founder with working product</option>
+                            <option value="seed-founder">Seed founder</option>
+                            <option value="vc-enthusiast">Venture Capital enthusiast</option>
+                            <option value="vc-partner">Venture Capital Partner</option>
+                            <option value="creative">Creative / Athlete / Academic</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <input type="text" id="otherIdentity" name="otherIdentity" 
+                               placeholder="Please specify" 
+                               style="display: none; margin-top: 10px;">
                     </div>
                     <div class="form-group checkbox">
                         <input type="checkbox" id="newsletter" name="newsletter">
@@ -253,10 +269,17 @@
                     referral: document.getElementById('referral').value,
                     referrerFirstName: document.getElementById('referrerFirstName').value.trim(),
                     referrerLastName: document.getElementById('referrerLastName').value.trim(),
+                    identity: document.getElementById('identity').value,
+                    otherIdentity: document.getElementById('otherIdentity').value.trim(),
                     newsletter: document.getElementById('newsletter').checked
                 };
                 
-                const url = 'https://script.google.com/macros/s/AKfycbwgGYqj82P2zGSIuRkZWjO1M-6GJ6cOaRdxR_7HgSjln0Sg8K1ekDLs53eM9fwuNaHt/exec';
+                // Only include other identity if it's filled
+                if (formData.identity !== 'other') {
+                    delete formData.otherIdentity;
+                }
+                
+                const url = 'https://script.google.com/macros/s/AKfycbyY5NbaPORHnGr0qLIpQHjtSdNAgFkITGrqCvyJjreA5CoO4JRSc9WwqY3z4JfuLZKA/exec';
                 
                 await fetch(url, {
                     method: 'POST',
@@ -415,6 +438,11 @@
                 otherInputs.style.display = referralSelect.value === 'other' ? 'block' : 'none';
                 document.getElementById('referrerFirstName').required = referralSelect.value === 'other';
                 document.getElementById('referrerLastName').required = referralSelect.value === 'other';
+            } else if (type === 'identity') {
+                const identitySelect = document.getElementById('identity');
+                const otherIdentity = document.getElementById('otherIdentity');
+                otherIdentity.style.display = identitySelect.value === 'other' ? 'block' : 'none';
+                otherIdentity.required = identitySelect.value === 'other';
             }
         }
 
@@ -491,31 +519,6 @@
                     top: form.scrollHeight,
                     behavior: 'smooth'
                 });
-            }
-        });
-
-        // Update scroll event listener
-        document.querySelector('form').addEventListener('scroll', function(e) {
-            const form = e.target;
-            const scrollIndicator = document.querySelector('.scroll-indicator');
-            
-            // Check if we're at the bottom
-            const isAtBottom = form.scrollHeight - form.scrollTop <= form.clientHeight + 50;
-            
-            // Toggle arrow direction and update title
-            if (isAtBottom) {
-                scrollIndicator.classList.add('up');
-                scrollIndicator.title = 'Scroll to top';
-            } else {
-                scrollIndicator.classList.remove('up');
-                scrollIndicator.title = 'Scroll to bottom';
-            }
-            
-            // Hide when at bottom and user scrolls further
-            if (form.scrollHeight - form.scrollTop <= form.clientHeight) {
-                scrollIndicator.style.display = 'none';
-            } else if (form.scrollHeight > form.clientHeight + 20) {
-                scrollIndicator.style.display = 'block';
             }
         });
 
