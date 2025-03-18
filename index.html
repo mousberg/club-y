@@ -130,15 +130,16 @@
                         <label>Who is your source of referral? *</label>
                         <select id="referral" name="referral" required onchange="toggleOtherInput('referral')">
                             <option value="" disabled selected>Select...</option>
-                            <option value="club-y-paris">Club Y Paris Event</option>
-                            <option value="club-y-london">Club Y London Event</option>
+                            <option value="club-y-london">Club Y London</option>
+                            <option value="club-y-paris">Club Y Paris 🚀</option>
                             <option value="club-y-retreat">Club Y Retreat</option>
-                            <option value="wef-2025">World Economic Forum 2025</option>
-                            <option value="davos-2025">Davos 2025</option>
-                            <option value="humans-davos">Humans of Davos</option>
-                            <option value="genzvc">Gen Z VC Chat</option>
-                            <option value="fos-london">FOS London Chat</option>
-                            <option value="yorkseed">Yorkseed Hub</option>
+                            <option value="fos-london">FOS London</option>
+                            <option value="genzvc">Gen Z VC</option>
+                            <option value="slush">Slush</option>
+                            <option value="wef-2025">WEF 2025</option>
+                            <option value="word-of-mouth">Word of Mouth</option>
+                            <option value="yorkseed">Yorkseed</option>
+                            <option value="yc-founder">YC Founder</option>
                             <option value="other">Other</option>
                         </select>
                         <div id="otherReferralInputs" style="display: none; margin-top: 10px;">
@@ -146,6 +147,10 @@
                                    placeholder="Referrer's First Name" style="margin-bottom: 10px;">
                             <input type="text" id="referrerLastName" name="referrerLastName" 
                                    placeholder="Referrer's Last Name">
+                        </div>
+                        <div id="wordOfMouthInput" style="display: none; margin-top: 10px;">
+                            <input type="text" id="wordOfMouthWho" name="wordOfMouthWho" 
+                                   placeholder="Who told you about us?" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -271,6 +276,7 @@
                     referral: document.getElementById('referral').value,
                     referrerFirstName: document.getElementById('referrerFirstName').value.trim(),
                     referrerLastName: document.getElementById('referrerLastName').value.trim(),
+                    wordOfMouthWho: document.getElementById('wordOfMouthWho').value.trim(),
                     identity: document.getElementById('identity').value,
                     otherIdentity: document.getElementById('otherIdentity').value.trim(),
                     newsletter: document.getElementById('newsletter').checked
@@ -281,7 +287,12 @@
                     delete formData.otherIdentity;
                 }
                 
-                const url = 'https://script.google.com/macros/s/AKfycbyY5NbaPORHnGr0qLIpQHjtSdNAgFkITGrqCvyJjreA5CoO4JRSc9WwqY3z4JfuLZKA/exec';
+                // Include wordOfMouthWho only if Word of Mouth is selected
+                if (formData.referral !== 'word-of-mouth') {
+                    delete formData.wordOfMouthWho;
+                }
+                
+                const url = 'https://script.google.com/macros/s/AKfycbxLCC5_LLAbr2hSa-XR1cdWpoBRXZoNW-wmxv1oLEIq3eauW4r1aDHJ1yUCOL7Eohur/exec';
                 
                 await fetch(url, {
                     method: 'POST',
@@ -437,9 +448,16 @@
             } else if (type === 'referral') {
                 const referralSelect = document.getElementById('referral');
                 const otherInputs = document.getElementById('otherReferralInputs');
+                const wordOfMouthInput = document.getElementById('wordOfMouthInput');
+                
+                // Handle "Other" option
                 otherInputs.style.display = referralSelect.value === 'other' ? 'block' : 'none';
                 document.getElementById('referrerFirstName').required = referralSelect.value === 'other';
                 document.getElementById('referrerLastName').required = referralSelect.value === 'other';
+                
+                // Handle "Word of Mouth" option
+                wordOfMouthInput.style.display = referralSelect.value === 'word-of-mouth' ? 'block' : 'none';
+                document.getElementById('wordOfMouthWho').required = referralSelect.value === 'word-of-mouth';
             } else if (type === 'identity') {
                 const identitySelect = document.getElementById('identity');
                 const otherIdentity = document.getElementById('otherIdentity');
