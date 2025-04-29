@@ -135,9 +135,9 @@
                             <option value="club-y-retreat">Club Y Retreat</option>
                             <option value="fos-london">FOS London</option>
                             <option value="genzvc">Gen Z VC</option>
+                            <option value="oxford-university">Oxford University</option>
                             <option value="slush">Slush</option>
                             <option value="wef-2025">WEF 2025</option>
-                            <option value="word-of-mouth">Word of Mouth</option>
                             <option value="yorkseed">Yorkseed</option>
                             <option value="yc-founder">YC Founder</option>
                             <option value="other">Other</option>
@@ -286,10 +286,6 @@
                     delete formData.otherIdentity;
                 }
                 
-                // Include wordOfMouthWho only if Word of Mouth is selected
-                if (formData.referral !== 'word-of-mouth') {
-                    delete formData.wordOfMouthWho;
-                }
                 
                 const url = 'https://script.google.com/macros/s/AKfycbxLCC5_LLAbr2hSa-XR1cdWpoBRXZoNW-wmxv1oLEIq3eauW4r1aDHJ1yUCOL7Eohur/exec';
                 
@@ -454,9 +450,6 @@
                 document.getElementById('referrerFirstName').required = referralSelect.value === 'other';
                 document.getElementById('referrerLastName').required = referralSelect.value === 'other';
                 
-                // Handle "Word of Mouth" option
-                wordOfMouthInput.style.display = referralSelect.value === 'word-of-mouth' ? 'block' : 'none';
-                document.getElementById('wordOfMouthWho').required = referralSelect.value === 'word-of-mouth';
             } else if (type === 'identity') {
                 const identitySelect = document.getElementById('identity');
                 const otherIdentity = document.getElementById('otherIdentity');
