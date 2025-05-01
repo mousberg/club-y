@@ -127,33 +127,70 @@
                                style="display: none; margin-top: 10px;">
                     </div>
                     <div class="form-group">
-                        <label>Who is your source of referral? *</label>
-                        <select id="referral" name="referral" required onchange="toggleOtherInput('referral')">
-                            <option value="" disabled selected>Select...</option>
-                            <option value="club-y-london">Club Y London</option>
-                            <option value="club-y-paris">Club Y Paris 🚀</option>
-                            <option value="club-y-retreat">Club Y Retreat</option>
-                            <option value="fos-london">FOS London</option>
-                            <option value="harvard">Harvard</option>
-                            <option value="genzvc">Gen Z VC</option>
-                            <option value="oxford-university">Oxford University</option>
-                            <option value="slush">Slush</option>
-                            <option value="stanford">Stanford</option>
-                            <option value="wef-2025">WEF 2025</option>
-                            <option value="yorkseed">Yorkseed</option>
-                            <option value="yc-demo-day">YC Demo Day</option>
-                            <option value="yc-founder">YC Founder</option>
-                            <option value="other">Other</option>
-                        </select>
+                        <label>Who is your source of referral? (select all that apply) *</label>
+                        <div class="checkbox-group" id="referralCheckboxes">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-club-y-london" name="referral[]" value="club-y-london" class="referral-checkbox">
+                                <label for="referral-club-y-london">Club Y London</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-club-y-paris" name="referral[]" value="club-y-paris" class="referral-checkbox">
+                                <label for="referral-club-y-paris">Club Y Paris 🚀</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-club-y-retreat" name="referral[]" value="club-y-retreat" class="referral-checkbox">
+                                <label for="referral-club-y-retreat">Club Y Retreat</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-fos-london" name="referral[]" value="fos-london" class="referral-checkbox">
+                                <label for="referral-fos-london">FOS London</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-harvard" name="referral[]" value="harvard" class="referral-checkbox">
+                                <label for="referral-harvard">Harvard</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-genzvc" name="referral[]" value="genzvc" class="referral-checkbox">
+                                <label for="referral-genzvc">Gen Z VC</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-oxford-university" name="referral[]" value="oxford-university" class="referral-checkbox">
+                                <label for="referral-oxford-university">Oxford University</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-slush" name="referral[]" value="slush" class="referral-checkbox">
+                                <label for="referral-slush">Slush</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-stanford" name="referral[]" value="stanford" class="referral-checkbox">
+                                <label for="referral-stanford">Stanford</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-wef-2025" name="referral[]" value="wef-2025" class="referral-checkbox">
+                                <label for="referral-wef-2025">WEF 2025</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-yorkseed" name="referral[]" value="yorkseed" class="referral-checkbox">
+                                <label for="referral-yorkseed">Yorkseed</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-yc-demo-day" name="referral[]" value="yc-demo-day" class="referral-checkbox">
+                                <label for="referral-yc-demo-day">YC Demo Day</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-yc-founder" name="referral[]" value="yc-founder" class="referral-checkbox">
+                                <label for="referral-yc-founder">YC Founder</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="referral-other" name="referral[]" value="other" class="referral-checkbox" onchange="toggleOtherReferralInput()">
+                                <label for="referral-other">Other</label>
+                            </div>
+                        </div>
                         <div id="otherReferralInputs" style="display: none; margin-top: 10px;">
                             <input type="text" id="referrerFirstName" name="referrerFirstName" 
                                    placeholder="Referrer's First Name" style="margin-bottom: 10px;">
                             <input type="text" id="referrerLastName" name="referrerLastName" 
                                    placeholder="Referrer's Last Name">
-                        </div>
-                        <div id="wordOfMouthInput" style="display: none; margin-top: 10px;">
-                            <input type="text" id="wordOfMouthWho" name="wordOfMouthWho" 
-                                   placeholder="Who told you about us?" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -206,8 +243,6 @@
         </a>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/gradient-animation@2.0.0/dist/gradient-animation.min.js"></script>
-
     <script>
         // Add smooth scroll behavior
         document.documentElement.style.scrollBehavior = 'smooth';
@@ -239,6 +274,24 @@
                 }
             });
             
+            // Validate referral checkboxes - at least one must be selected
+            const referralCheckboxes = document.querySelectorAll('.referral-checkbox');
+            const referralGroup = document.getElementById('referralCheckboxes');
+            let anyReferralSelected = false;
+            
+            referralCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    anyReferralSelected = true;
+                }
+            });
+            
+            if (!anyReferralSelected) {
+                isValid = false;
+                referralGroup.classList.add('error-group');
+            } else {
+                referralGroup.classList.remove('error-group');
+            }
+            
             if (!phoneInput.isValidNumber()) {
                 document.querySelector("#phone").classList.add('error');
                 return false;
@@ -264,6 +317,12 @@
             submitButton.textContent = 'Submitting...';
             
             try {
+                // Get all selected referral options
+                const referralValues = [];
+                document.querySelectorAll('.referral-checkbox:checked').forEach(checkbox => {
+                    referralValues.push(checkbox.value);
+                });
+                
                 const formData = {
                     firstName: document.getElementById('firstName').value.trim(),
                     lastName: document.getElementById('lastName').value.trim(),
@@ -275,10 +334,9 @@
                     email: document.getElementById('email').value.trim(),
                     location: document.getElementById('location').value,
                     otherLocation: document.getElementById('otherLocation').value.trim(),
-                    referral: document.getElementById('referral').value,
+                    referral: referralValues, // Now an array of selected values
                     referrerFirstName: document.getElementById('referrerFirstName').value.trim(),
                     referrerLastName: document.getElementById('referrerLastName').value.trim(),
-                    wordOfMouthWho: document.getElementById('wordOfMouthWho').value.trim(),
                     identity: document.getElementById('identity').value,
                     otherIdentity: document.getElementById('otherIdentity').value.trim(),
                     newsletter: document.getElementById('newsletter').checked
@@ -437,22 +495,22 @@
             }
         });
 
+        // Add new function to toggle other referral input
+        function toggleOtherReferralInput() {
+            const otherCheckbox = document.getElementById('referral-other');
+            const otherInputs = document.getElementById('otherReferralInputs');
+            
+            otherInputs.style.display = otherCheckbox.checked ? 'block' : 'none';
+            document.getElementById('referrerFirstName').required = otherCheckbox.checked;
+            document.getElementById('referrerLastName').required = otherCheckbox.checked;
+        }
+
         function toggleOtherInput(type) {
             if (type === 'location') {
                 const locationSelect = document.getElementById('location');
                 const otherLocation = document.getElementById('otherLocation');
                 otherLocation.style.display = locationSelect.value === 'other' ? 'block' : 'none';
                 otherLocation.required = locationSelect.value === 'other';
-            } else if (type === 'referral') {
-                const referralSelect = document.getElementById('referral');
-                const otherInputs = document.getElementById('otherReferralInputs');
-                const wordOfMouthInput = document.getElementById('wordOfMouthInput');
-                
-                // Handle "Other" option
-                otherInputs.style.display = referralSelect.value === 'other' ? 'block' : 'none';
-                document.getElementById('referrerFirstName').required = referralSelect.value === 'other';
-                document.getElementById('referrerLastName').required = referralSelect.value === 'other';
-                
             } else if (type === 'identity') {
                 const identitySelect = document.getElementById('identity');
                 const otherIdentity = document.getElementById('otherIdentity');
@@ -551,26 +609,6 @@
         document.addEventListener('mouseleave', () => {
             document.querySelector('.gradient-container').style.transform = 
                 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
-        });
-
-        document.querySelector('.club-y-button').addEventListener('click', function(e) {
-            e.preventDefault();
-            const button = this;
-            const pageFade = document.querySelector('.page-fade');
-            
-            // Start button animation
-            button.classList.add('animating-transition');
-            
-            // Sequence the animations
-            setTimeout(() => {
-                // Fade in white overlay
-                pageFade.classList.add('active');
-                
-                // Redirect after fade
-                setTimeout(() => {
-                    window.location.href = 'https://club-y.co';
-                }, 500);
-            }, 600);
         });
     </script>
 </body>

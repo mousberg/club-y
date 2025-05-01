@@ -1181,3 +1181,37 @@ input[type="checkbox"],
            url('club-y-cursor.svg') 5 0, 
            pointer;
 }
+
+/* Add styles for the checkbox group */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.error-group {
+    border: 1px solid #FF4444;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: rgba(255, 68, 68, 0.05);
+}
+
+/* Adjust for mobile */
+@media (max-width: 600px) {
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+}
