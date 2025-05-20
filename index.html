@@ -231,6 +231,23 @@
                                placeholder="Please specify" 
                                style="display: none; margin-top: 10px;">
                     </div>
+                    
+                    <div id="startupInfoContainer" class="form-group" style="display: none;">
+                        <label class="startup-info-label">To accelerate your application, please tell us about your startup:</label>
+                        <div class="form-group">
+                            <label>What is the name of your startup?</label>
+                            <input type="text" id="startupName" name="startupName" placeholder="Startup name">
+                        </div>
+                        <div class="form-group">
+                            <label>Describe your startup in one sentence</label>
+                            <input type="text" id="startupDescription" name="startupDescription" placeholder="Short description of your startup">
+                        </div>
+                        <div class="form-group">
+                            <label>Links (Website, Social Media, etc.)</label>
+                            <textarea id="startupLinks" name="startupLinks" placeholder="Website, X, Instagram, LinkedIn, co-founders or anything applicable" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
                     <div class="form-group checkbox">
                         <input type="checkbox" id="newsletter" name="newsletter">
                         <label for="newsletter">Subscribe to Club Y Newsletter</a></label>
@@ -363,6 +380,9 @@
                     referrerLastName: document.getElementById('referrerLastName').value.trim(),
                     identity: document.getElementById('identity').value,
                     otherIdentity: document.getElementById('otherIdentity').value.trim(),
+                    startupName: document.getElementById('startupName').value.trim(),
+                    startupDescription: document.getElementById('startupDescription').value.trim(),
+                    startupLinks: document.getElementById('startupLinks').value.trim(),
                     newsletter: document.getElementById('newsletter').checked
                 };
                 
@@ -372,7 +392,7 @@
                 }
                 
                 
-                const url = 'https://script.google.com/macros/s/AKfycbzYcjupew-gNkkIVQI_bjuErlOivEnty2WemkVb3Jr-vA9qOT275UZoc4spLwwwE5UD/exec';
+                const url = 'https://script.google.com/macros/s/AKfycbzBgvwJ3Wq0x9djlAXd2qTVceHLFdyntMQdKD5Mu0yQ5T2oBIqneYh-tsMGJa15R8WI/exec';
                 
                 await fetch(url, {
                     method: 'POST',
@@ -538,8 +558,15 @@
             } else if (type === 'identity') {
                 const identitySelect = document.getElementById('identity');
                 const otherIdentity = document.getElementById('otherIdentity');
+                const startupInfoContainer = document.getElementById('startupInfoContainer');
+                
+                // Show/hide the "other" input field
                 otherIdentity.style.display = identitySelect.value === 'other' ? 'block' : 'none';
                 otherIdentity.required = identitySelect.value === 'other';
+                
+                // Show/hide startup info fields for founders
+                const isFounder = identitySelect.value === 'pre-seed-no-revenue' || identitySelect.value === 'seed-revenue';
+                startupInfoContainer.style.display = isFounder ? 'block' : 'none';
             }
         }
 

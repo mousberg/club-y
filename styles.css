@@ -264,6 +264,7 @@ form::-webkit-scrollbar {
 
 .form-group input:not([type="checkbox"]),
 .form-group select,
+.form-group textarea,
 .submit-button {
     width: 100%;
 }
@@ -405,12 +406,14 @@ form h2 {
 }
 
 .form-group input:not([type="checkbox"]):hover,
-.form-group select:hover {
+.form-group select:hover,
+.form-group textarea:hover {
     border-color: rgba(0, 0, 0, 0.2);
 }
 
 .form-group input:not([type="checkbox"]):focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
     border-color: rgba(0, 0, 0, 0.3);
     outline: none;
 }
@@ -1141,7 +1144,8 @@ body {
 
 /* Keep all existing styles for form inputs but update widths */
 .form-group input:not([type="checkbox"]),
-.form-group select {
+.form-group select,
+.form-group textarea {
     background: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 30px;
@@ -1149,6 +1153,14 @@ body {
     height: 40px;
     padding: 0 20px;
     width: 100%;
+}
+
+.form-group textarea {
+    height: auto;
+    min-height: 100px;
+    padding: 15px 20px;
+    resize: vertical;
+    font-family: 'Inter Tight', sans-serif;
 }
 
 /* Update form fields container width */
