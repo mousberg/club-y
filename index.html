@@ -110,15 +110,8 @@
                         <input type="tel" id="phone" name="phone" required>
                     </div>
                     <div class="form-group">
-                        <label>Age Range *</label>
-                        <select id="ageRange" name="ageRange" required>
-                            <option value="" disabled selected>Select...</option>
-                            <option value="18-24">18-24</option>
-                            <option value="25-34">25-34</option>
-                            <option value="35-44">35-44</option>
-                            <option value="45-54">45-54</option>
-                            <option value="55+">55+</option>
-                        </select>
+                        <label>Age *</label>
+                        <input type="number" id="age" name="age" min="18" max="99" required placeholder="Enter your age">
                     </div>
                     <div class="form-group">
                         <label>Location *</label>
@@ -380,7 +373,7 @@
                         : '',
                     phone: phoneInput.isValidNumber() ? phoneInput.getNumber(intlTelInputUtils.numberFormat.E164) : '',
                     email: document.getElementById('email').value.trim(),
-                    ageRange: document.getElementById('ageRange').value,
+                    age: document.getElementById('age').value,
                     location: document.getElementById('location').value,
                     otherLocation: document.getElementById('otherLocation').value.trim(),
                     referral: referralValues, // Now an array of selected values
