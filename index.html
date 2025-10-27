@@ -233,6 +233,33 @@
                                style="display: none; margin-top: 10px;">
                     </div>
                     
+                    <div id="vcInfoContainer" style="display: none; margin-top: 15px;">
+                        <div class="form-group">
+                            <label>Name of the fund</label>
+                            <input type="text" id="fundName" name="fundName" placeholder="Fund name">
+                        </div>
+                        <div class="form-group">
+                            <label>Role</label>
+                            <input type="text" id="fundRole" name="fundRole" placeholder="Your role at the fund">
+                        </div>
+                        <div class="form-group">
+                            <label>Stage</label>
+                            <input type="text" id="fundStage" name="fundStage" placeholder="e.g., Pre-seed, Seed, Series A">
+                        </div>
+                        <div class="form-group">
+                            <label>Vertical</label>
+                            <input type="text" id="fundVertical" name="fundVertical" placeholder="e.g., SaaS, Fintech, AI">
+                        </div>
+                        <div class="form-group">
+                            <label>Average check size</label>
+                            <input type="text" id="fundAvgCheck" name="fundAvgCheck" placeholder="e.g., $500K">
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum check size</label>
+                            <input type="text" id="fundMinCheck" name="fundMinCheck" placeholder="e.g., $100K">
+                        </div>
+                    </div>
+                    
                     <div id="startupInfoContainer" class="form-group" style="display: none;">
                         <label class="startup-info-label">To accelerate your application, please tell us about your startup:</label>
                         <div class="form-group">
@@ -381,6 +408,12 @@
                     referrerLastName: document.getElementById('referrerLastName').value.trim(),
                     identity: document.getElementById('identity').value,
                     otherIdentity: document.getElementById('otherIdentity').value.trim(),
+                    fundName: document.getElementById('fundName').value.trim(),
+                    fundRole: document.getElementById('fundRole').value.trim(),
+                    fundStage: document.getElementById('fundStage').value.trim(),
+                    fundVertical: document.getElementById('fundVertical').value.trim(),
+                    fundAvgCheck: document.getElementById('fundAvgCheck').value.trim(),
+                    fundMinCheck: document.getElementById('fundMinCheck').value.trim(),
                     startupName: document.getElementById('startupName').value.trim(),
                     startupDescription: document.getElementById('startupDescription').value.trim(),
                     startupLinks: document.getElementById('startupLinks').value.trim(),
@@ -560,6 +593,7 @@
                 const identitySelect = document.getElementById('identity');
                 const otherIdentity = document.getElementById('otherIdentity');
                 const startupInfoContainer = document.getElementById('startupInfoContainer');
+                const vcInfoContainer = document.getElementById('vcInfoContainer');
                 
                 // Show/hide the "other" input field
                 otherIdentity.style.display = identitySelect.value === 'other' ? 'block' : 'none';
@@ -568,6 +602,10 @@
                 // Show/hide startup info fields for founders
                 const isFounder = identitySelect.value === 'pre-seed-no-revenue' || identitySelect.value === 'seed-revenue';
                 startupInfoContainer.style.display = isFounder ? 'block' : 'none';
+                
+                // Show/hide VC info fields for investors
+                const isVC = identitySelect.value === 'vc-investor';
+                vcInfoContainer.style.display = isVC ? 'block' : 'none';
             }
         }
 
