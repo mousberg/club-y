@@ -65,6 +65,12 @@ a {
   cursor: var(--cursor);
 }
 
+/* Both logos are drawn right up to the edge of their viewBox. Safari clips an SVG at its box, and shaves the
+   letters whenever that box lands on a fraction of a pixel, so let them overflow it. */
+svg {
+  overflow: visible;
+}
+
 ::selection {
   background: var(--lilac);
 }
