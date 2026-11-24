@@ -1,2 +1,6 @@
-.gs
+node_modules/
+dist/
+.astro/
 .env
+.gs
+.DS_Store

@@ -1,0 +1,219 @@
+/* Club Y - one white page, one lilac light, one typeface. */
+
+:root {
+  color-scheme: light;
+
+  --ink: #000;
+  --muted: #666; /* 5.7:1 on white, and still 4.5:1 where the light is strongest */
+  --paper: #fff;
+  --lilac: #d5afff;
+
+  /* Type: functional text is fixed, the statement is fluid (20px on a phone, 22px at 1440). */
+  --t-sm: 0.9375rem;
+  --t-md: 1.0625rem;
+  --t-lg: clamp(1.25rem, 1.206rem + 0.188vw, 1.625rem);
+
+  --g: 0.5rem; /* the grid unit: every gap is a multiple of 8px */
+  --edge: clamp(1.25rem, 0.81rem + 1.88vw, 2.5rem); /* page margin: 20px on a phone, 40px at 1440 */
+  --mark: 2.5rem;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --cursor: url("/cursor.svg") 3 1, pointer;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100svh;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--t-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  display: grid;
+  /* Clears the mark above, and the same below so centred content stays centred. */
+  padding: calc(var(--edge) + var(--mark) + var(--g) * 3) var(--edge);
+}
+
+h1,
+h2,
+p,
+ul {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  cursor: var(--cursor);
+}
+
+::selection {
+  background: var(--lilac);
+}
+
+:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* The lilac light: two soft discs that drift, moved by the compositor only.
+   The six stops follow (1 - r²)², flat at the centre and at the rim, so a disc has no visible edge. */
+.glow {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.glow::before,
+.glow::after {
+  content: "";
+  position: absolute;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    closest-side,
+    var(--lilac),
+    color-mix(in srgb, var(--lilac) 88%, transparent) 25%,
+    color-mix(in srgb, var(--lilac) 64%, transparent) 45%,
+    color-mix(in srgb, var(--lilac) 33%, transparent) 65%,
+    color-mix(in srgb, var(--lilac) 11%, transparent) 82%,
+    transparent
+  );
+}
+
+.glow::before {
+  right: -30vmax;
+  bottom: -46vmax;
+  width: 100vmax;
+  opacity: 0.4;
+}
+
+.glow::after {
+  top: -4vmax;
+  right: -22vmax;
+  width: 70vmax;
+  opacity: 0.14;
+}
+
+.mark {
+  position: absolute;
+  top: var(--edge);
+  left: var(--edge);
+}
+
+.mark img {
+  display: block;
+  width: var(--mark);
+  height: var(--mark);
+}
+
+/* Centred pages (home, 404): a block in the middle and the statement type. */
+.centre {
+  place-self: center;
+  display: grid;
+  justify-items: center;
+  gap: calc(var(--g) * 4);
+  text-align: center;
+}
+
+.statement {
+  font-size: var(--t-lg);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.foot {
+  padding: 0 var(--edge) var(--edge);
+  color: var(--muted);
+  font-size: var(--t-sm);
+  text-align: center;
+}
+
+.foot a {
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.foot a:hover {
+  color: var(--ink);
+}
+
+.foot svg {
+  width: auto;
+  height: 0.72em;
+  margin-left: 0.15em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Calm cross-fade between pages (browsers without support just navigate). */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glow::before {
+    animation: drift 28s ease-in-out infinite alternate;
+  }
+
+  .glow::after {
+    animation: drift 37s ease-in-out -12s infinite alternate-reverse;
+  }
+
+  .centre > * {
+    animation: rise 0.9s var(--ease) backwards;
+  }
+
+  .centre > :nth-child(2) {
+    animation-delay: 0.09s;
+  }
+}
+
+@keyframes drift {
+  to {
+    transform: translate(-7vmax, -5vmax) scale(1.14);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
