@@ -80,8 +80,9 @@ svg {
   outline-offset: 4px;
 }
 
-/* The lilac light: two soft discs that drift, moved by the compositor only.
-   The six stops follow (1 - r²)², flat at the centre and at the rim, so a disc has no visible edge. */
+/* The lilac light: two soft discs in the bottom right corner that drift, moved by the compositor only.
+   The stops follow (1 - r²)², flat at the centre and at the rim, so a disc has no visible edge.
+   Eight stops is the limit: with a ninth, Chrome 131 drew the gradient wrong. */
 .glow {
   position: fixed;
   inset: 0;
@@ -98,26 +99,28 @@ svg {
   background: radial-gradient(
     closest-side,
     var(--lilac),
-    color-mix(in srgb, var(--lilac) 88%, transparent) 25%,
-    color-mix(in srgb, var(--lilac) 64%, transparent) 45%,
-    color-mix(in srgb, var(--lilac) 33%, transparent) 65%,
-    color-mix(in srgb, var(--lilac) 11%, transparent) 82%,
+    color-mix(in srgb, var(--lilac) 92%, transparent) 20%,
+    color-mix(in srgb, var(--lilac) 73%, transparent) 38%,
+    color-mix(in srgb, var(--lilac) 50%, transparent) 54%,
+    color-mix(in srgb, var(--lilac) 29%, transparent) 68%,
+    color-mix(in srgb, var(--lilac) 13%, transparent) 80%,
+    color-mix(in srgb, var(--lilac) 3.6%, transparent) 90%,
     transparent
   );
 }
 
 .glow::before {
-  right: -30vmax;
-  bottom: -46vmax;
-  width: 100vmax;
-  opacity: 0.4;
+  right: -34vmax;
+  bottom: -42vmax;
+  width: 96vmax;
+  opacity: 0.38;
 }
 
 .glow::after {
-  top: -4vmax;
-  right: -22vmax;
-  width: 70vmax;
-  opacity: 0.14;
+  top: 10vmax;
+  right: -28vmax;
+  width: 56vmax;
+  opacity: 0.12;
 }
 
 .mark {
@@ -205,7 +208,7 @@ svg {
 
 @keyframes drift {
   to {
-    transform: translate(-7vmax, -5vmax) scale(1.14);
+    transform: translate(-4vmax, -3vmax) scale(1.08);
   }
 }
 
