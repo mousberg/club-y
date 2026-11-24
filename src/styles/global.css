@@ -165,14 +165,14 @@ svg {
 }
 
 .foot {
+  display: grid;
+  justify-content: center;
   padding: 0 var(--edge) var(--edge);
   color: var(--muted);
   font-size: var(--t-sm);
-  text-align: center;
 }
 
 .foot a {
-  text-decoration: none;
   transition: color 0.15s ease;
 }
 
@@ -180,10 +180,11 @@ svg {
   color: var(--ink);
 }
 
+/* The credit is drawn at the footer's type size: its viewBox is 0.99em tall. */
 .foot svg {
+  display: block;
   width: auto;
-  height: 0.72em;
-  margin-left: 0.15em;
+  height: 0.99em;
 }
 
 .sr-only {
