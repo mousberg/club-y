@@ -11,16 +11,19 @@ export default defineConfig({
   // A port of its own: workshop-lab uses 4321 and 4322, and Safari remembers a site's icon per address.
   server: { port: 4323 },
   devToolbar: { enabled: false },
-  // Downloaded at build time and served from this site, so pages make no third-party requests.
+  // Saans by Displaay, the Workshop Lab typeface, served from this site. Licensed: see the README.
   fonts: [
     {
-      provider: fontProviders.fontsource(),
-      name: 'Instrument Sans',
+      provider: fontProviders.local(),
+      name: 'Saans',
       cssVariable: '--font-sans',
-      weights: [400, 500],
-      styles: ['normal'],
-      subsets: ['latin'],
       fallbacks: ['system-ui', 'sans-serif'],
+      options: {
+        variants: [
+          { weight: 400, style: 'normal', src: ['./src/assets/fonts/Sa-Reg.woff2'] },
+          { weight: 500, style: 'normal', src: ['./src/assets/fonts/Sa-Me.woff2'] },
+        ],
+      },
     },
   ],
   // Sent as a <meta> tag, since GitHub Pages cannot set headers: a page may only load what this site serves.

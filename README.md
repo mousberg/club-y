@@ -30,8 +30,8 @@ The sitemap is generated from the pages in `src/pages/`.
 ## Fundamentals
 
 - **Stack.** [Astro](https://astro.build) 7, built to static files. The only JavaScript is the 0.4 KB that rolls the cities.
-- **Weight.** The home page is one HTML document with its CSS inside (about 4 KB gzipped), two font files (34 KB) and the mark.
-- **Type.** Instrument Sans (Open Font License), downloaded at build time and served from this site.
+- **Weight.** The home page is one HTML document with its CSS inside (about 4 KB gzipped), two font files (48 KB) and the mark.
+- **Type.** Saans by [Displaay](https://displaay.net/about/licenses/), the Workshop Lab typeface, in `src/assets/fonts/` (Regular and Medium, trimmed to Latin). It is licensed to Workshop Lab: do not reuse the files anywhere else.
 - **Motion.** The lilac light drifts, the wordmark and statement rise in, the city rolls. With "reduce motion" on, the light is still and the city fades.
 - **Security.** A content security policy in each page allows only what this site serves. Adding an outside script, font or image means allowing it in `astro.config.mjs`.
 
