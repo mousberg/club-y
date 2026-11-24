@@ -123,6 +123,18 @@ svg {
   opacity: 0.12;
 }
 
+/* On a phone the light sits on the right edge and has faded out before the bottom of the page. Safari on iOS
+   stops a fixed layer at its toolbar and paints the strip behind the toolbar in the page colour, so a light that
+   reached the bottom edge would end there in a hard line. */
+@media (max-width: 600px) {
+  .glow::before {
+    top: 30svh;
+    right: -32svh;
+    bottom: auto;
+    width: 70svh;
+  }
+}
+
 .mark {
   position: absolute;
   top: var(--edge);

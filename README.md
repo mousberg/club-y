@@ -16,7 +16,7 @@
 | **Colour** | `#000` ink, `#666` muted (5.7 : 1 on white), `#fff` paper, `#d5afff` lilac. One scheme, light. |
 | **Space** | An 8 px grid: 8 16 24 32 40. The page edge runs from 20 px on a phone to 40. |
 | **Marks** | The Y mark at 40 px, the wordmark at 1.8× the statement, a lilac cursor over links. |
-| **Light** | Two lilac discs in the bottom right corner, at 38% and 12%, fading by (1 – r²)². |
+| **Light** | Two lilac discs in the bottom right corner, at 38% and 12%, fading by (1 – r²)². On a phone they sit on the right edge and fade out before the bottom, where Safari's toolbar begins. |
 | **Motion** | A 0.9 s rise on arrival, a new city every 2.6 s, a slow drift of the light. Under "reduce motion" the light is still and the city fades. |
 
 Every token sits at the top of [`src/styles/global.css`](src/styles/global.css).
